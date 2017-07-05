@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<h:form id="viewForm">
+
+		<p:dataTable id="datatableBook"
+			style="width: 350px;margin-left: 10px;float: left;" var="Book"
+			value="#{bookBean.readBook()}" rows="4" paginator="true"
+			filteredValue="#{bookBean.filteredBook}" emptyMessage="No Book found"
+			widgetVar="bookTable" selectionMode="single"
+			selection="#{bookBean.selectedBook}" rowKey="#{Book.bookId}"
+			paginatorPosition="bottom">
+
+
+			<p:column headerText="BookID" style="width: 80px;">
+				<h:outputText value="#{Book.bookId}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Book Name" filterBy="#{Book.bookName}"
+				filterMatchMode="contains">
+				<h:outputText value="#{Book.bookName}">
+				</h:outputText>
+			</p:column>
+
+
+
+		</p:dataTable>
+
+		<p:dataTable id="datatableMember"
+			style="width: 350px;margin-left: 10px;float: left" var="Member"
+			value="#{memberBean.readMember()}" rows="4" paginator="true"
+			filteredValue="#{memberBean.filteredMember}"
+			emptyMessage="No Member found" widgetVar="memberTable"
+			selectionMode="single" selection="#{memberBean.selectedMember}"
+			rowKey="#{Member.memberId}" paginatorPosition="bottom">
+			
+
+			<p:column headerText="Member ID" style="width: 80px;">
+				<h:outputText value="#{Member.memberId}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Member Name" filterBy="#{Member.memberName}"
+				filterMatchMode="contains">
+				<h:outputText value="#{Member.memberName}">
+				</h:outputText>
+			</p:column>
+
+
+
+		</p:dataTable>
+
+		<p:panelGrid id="pg1"
+			style="margin-left: 10px;float: left; width: 500px;" columns="2">
+			<f:facet name="header">
+				<p:row>
+					<p:column>Loan Book</p:column>
+				</p:row>
+			</f:facet>
+
+			<p:outputLabel for="bookId" value="Book ID"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{loanBean.loan.book.bookId}" id="bookId" />
+
+			<p:outputLabel for="memberId" value="Member ID"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{loanBean.loan.member.memberId}" id="memberId" />
+
+
+
+			<p:column>
+				<a href="main.xhtml">Go to Homepage</a>
+			</p:column>
+
+			<p:column>
+				<p:commandButton value="Save" actionListener="#{loanBean.save()}" />
+
+
+			</p:column>
+		</p:panelGrid>
+
+	</h:form>
+</body>
+</html>

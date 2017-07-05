@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Books</title>
+</h:head>
+<body>
+
+	<h:form id="viewForm">
+
+		<p:dataTable id="datatable" style="width: auto;margin-left: 10px;"
+			var="Book" value="#{bookBean.readBook()}" rows="6" paginator="true"
+			filteredValue="#{bookBean.filteredBook}" emptyMessage="No book found"
+			widgetVar="bookTable" selectionMode="single"
+			selection="#{bookBean.selectedBook}" rowKey="#{Book.bookId}"
+			paginatorPosition="bottom">
+			<p:ajax event="rowSelect" listener="#{bookBean.onRowSelectBook()}"
+				update=":#{p:component('pg1')}" />
+
+			<p:column headerText="Book ISBN">
+				<h:outputText value="#{Book.bookIsbn}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Book Name" filterBy="#{Book.bookName}"
+				filterMatchMode="contains">
+				<h:outputText value="#{Book.bookName}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Book Author">
+				<h:outputText value="#{Book.bookAuthor}">
+				</h:outputText>
+			</p:column>
+
+
+
+		</p:dataTable>
+		<br />
+
+		<p:panelGrid id="pg1"
+			style="margin-left: 10px;float: left; width: 500px;" columns="2">
+			<f:facet name="header">
+				<p:row>
+					<p:column>Book Information</p:column>
+				</p:row>
+			</f:facet>
+			<p:outputLabel for="bookIsbn" value="Book ISBN"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{bookBean.book.bookIsbn}" id="bookIsbn" />
+			<p:outputLabel for="bookName" value="Book Name"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{bookBean.book.bookName}" id="bookName" />
+			<p:outputLabel for="bookAuthor" value="Book Author"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{bookBean.book.bookAuthor}" id="bookAuthor" />
+
+
+
+			<p:column>
+				<a href="main.xhtml">Go to Homepage</a>
+			</p:column>
+
+			<p:column>
+				<p:commandButton value="Save" actionListener="#{bookBean.save()}"
+					update="@all" />
+
+				<p:commandButton id="buttonUpdate" value="Update"
+					style="margin-left: 10px;" actionListener="#{bookBean.update()}"
+					update="@all" />
+
+				<p:commandButton value="Delete"
+					actionListener="#{bookBean.delete()}" style="margin-left: 10px;"
+					update="@all" />
+			</p:column>
+		</p:panelGrid>
+
+
+	</h:form>
+</body>
+</html>

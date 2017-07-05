@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Loans</title>
+</h:head>
+<body>
+
+	<h:form id="viewForm">
+
+		<p:dataTable id="datatable" style="width: auto;margin-left: 10px;"
+			var="Loan" value="#{loanBean.readLoan()}" rows="6" paginator="true"
+			filteredValue="#{loanBean.filteredLoan}" emptyMessage="No Loan found"
+			widgetVar="loanTable" selectionMode="single"
+			selection="#{loanBean.selectedLoan}" rowKey="#{Loan.loanId}"
+			paginatorPosition="bottom">
+			<p:ajax event="rowSelect" listener="#{loanBean.onRowSelectLoan()}"
+				update=":#{p:component('pg1')}" />
+
+			<p:column headerText="Member ID">
+				<p:outputLabel value="#{Loan.member.memberName}" />
+			</p:column>
+
+			<p:column headerText="Book ID">
+				<p:outputLabel value="#{Loan.book.bookName}" />
+			</p:column>
+
+			<p:column headerText="Loan From">
+				<h:outputText value="#{Loan.loanFrom}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Loan Until">
+				<h:outputText value="#{Loan.loanUntil}">
+				</h:outputText>
+			</p:column>
+
+		</p:dataTable>
+		<br />
+
+
+		<p:panelGrid id="pg1"
+			style="margin-left: 10px;float: left; width: 500px;" columns="2">
+			<f:facet name="header">
+				<p:row>
+					<p:column>Member Information</p:column>
+				</p:row>
+			</f:facet>
+			<p:outputLabel for="memberId" value="Member ID"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{loanBean.loan.member.memberId}" id="memberId" />
+			<p:outputLabel for="bookId" value="Book ID"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{loanBean.loan.book.bookId}" id="bookId" />
+			<p:outputLabel for="loanFrom" value="Loan From"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{loanBean.loan.loanFrom}" readonly="true"
+				id="loanFrom" />
+			<p:outputLabel for="loanUntil" value="Loan Until"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{loanBean.loan.loanUntil}" readonly="true"
+				id="loanUntil" />
+
+
+			<p:column>
+				<a href="main.xhtml">Go to Homepage</a>
+			</p:column>
+
+			<p:column>
+
+				<a href="new_loan.xhtml">New Loan</a>
+
+				<p:commandButton value="Delete"
+					actionListener="#{loanBean.delete()}" style="margin-left: 10px;"
+					update="@all" />
+			</p:column>
+		</p:panelGrid>
+
+	</h:form>
+</body>
+</html>

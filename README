@@ -1,0 +1,37 @@
+Type this commands to create your database correctly;
+
+1. CREATE DATABASE Library;
+--------------------------
+2. USE Library;
+--------------------------
+3. CREATE TABLE `Book` (
+	`bookID` INT NOT NULL AUTO_INCREMENT,
+	`bookISBN` varchar(20) NOT NULL,
+	`bookName` varchar(100) NOT NULL,
+	`bookAuthor` varchar(100) NOT NULL,
+	PRIMARY KEY (`bookID`)
+);
+--------------------------
+4. CREATE TABLE `Member` (
+	`memberID` INT NOT NULL AUTO_INCREMENT,
+	`memberName` varchar(100) NOT NULL,
+	`memberEmail` varchar(100) not null,
+	`memberAge` int not null,
+	PRIMARY KEY (`memberID`)
+);
+--------------------------
+5. CREATE TABLE `Loan` (
+	`loanID` INT NOT NULL AUTO_INCREMENT,
+	`loanMemberID` INT NOT NULL,
+	`loanBookID` INT NOT NULL,
+	`loanFrom` DATETIME default NOW(),
+	`loanUntil` DATETIME,
+	PRIMARY KEY (`loanID`)
+);
+--------------------------
+6. ALTER TABLE `Loan` ADD CONSTRAINT `Loan_fk0` FOREIGN KEY (`loanMemberID`) REFERENCES `Member`(`memberID`);
+   ALTER TABLE `Loan` ADD CONSTRAINT `Loan_fk1` FOREIGN KEY (`loanBookID`) REFERENCES `Book`(`bookID`);
+--------------------------
+7. CREATE TRIGGER loan_trigger BEFORE INSERT ON `Loan` 
+   FOR EACH ROW SET NEW.loanFrom = IFNULL(NEW.loanFrom,NOW()),
+   NEW.loanUntil= TIMESTAMPADD(DAY,14,NEW.loanFrom);

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.pojo.Loan" table="Loan" catalog="Library"
+		optimistic-lock="version">
+		<id name="loanId" type="java.lang.Integer">
+			<column name="loanID" />
+			<generator class="identity" />
+		</id>
+		<many-to-one name="book" class="com.pojo.Book" fetch="select">
+			<column name="loanBookID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="member" class="com.pojo.Member" fetch="select">
+			<column name="loanMemberID" not-null="true" />
+		</many-to-one>
+		<property name="loanFrom" type="timestamp">
+			<column name="loanFrom" length="19" />
+		</property>
+		<property name="loanUntil" type="timestamp">
+			<column name="loanUntil" length="19" />
+		</property>
+	</class>
+</hibernate-mapping>

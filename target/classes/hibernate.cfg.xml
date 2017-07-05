@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.password">[your_password]</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/Library</property>
+		<property name="hibernate.connection.username">[your_username]</property>
+		<property name="hibernate.default_catalog">Library</property>
+		<property name="hibernate.default_schema">Library</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<mapping resource="com/pojo/Loan.hbm.xml" />
+		<mapping resource="com/pojo/Member.hbm.xml" />
+		<mapping resource="com/pojo/Book.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

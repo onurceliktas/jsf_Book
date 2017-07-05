@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Members</title>
+</h:head>
+<body>
+
+	<h:form id="viewForm">
+		<p:dataTable id="datatable" style="width: auto;margin-left: 10px;"
+			var="Member" value="#{memberBean.readMember()}" rows="6"
+			paginator="true" filteredValue="#{memberBean.filteredMember}"
+			emptyMessage="No member found" widgetVar="memberTable"
+			selectionMode="single" selection="#{memberBean.selectedMember}"
+			rowKey="#{Member.memberId}" paginatorPosition="bottom">
+			<p:ajax event="rowSelect"
+				listener="#{memberBean.onRowSelectMember()}"
+				update=":#{p:component('pg1')}" />
+
+			<p:column headerText="Member Name" filterBy="#{Member.memberName}"
+				filterMatchMode="contains">
+				<h:outputText value="#{Member.memberName}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Member E-mail">
+				<h:outputText value="#{Member.memberEmail}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Member Age">
+				<h:outputText value="#{Member.memberAge}">
+				</h:outputText>
+			</p:column>
+
+
+
+		</p:dataTable>
+		<br />
+
+		<p:panelGrid id="pg1"
+			style="margin-left: 10px;float: left; width: 500px;" columns="2">
+			<f:facet name="header">
+				<p:row>
+					<p:column>Member Information</p:column>
+				</p:row>
+			</f:facet>
+			<p:outputLabel for="memberName" value="Member Name"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{memberBean.member.memberName}" id="memberName" />
+			<p:outputLabel for="memberEmail" value="Member E-mail"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{memberBean.member.memberEmail}"
+				id="memberEmail" />
+			<p:outputLabel for="memberAge" value="Member Age"
+				style="font-weight: bolder;" />
+			<p:inputText value="#{memberBean.member.memberAge}" id="memberAge" />
+
+
+			<p:column>
+				<a href="main.xhtml">Go to Homepage</a>
+			</p:column>
+
+			<p:column>
+				<p:commandButton value="Save" actionListener="#{memberBean.save()}"
+					update="#{p:component('datatable')}" />
+
+				<p:commandButton id="buttonUpdate" value="Update"
+					style="margin-left: 10px;" actionListener="#{memberBean.update()}"
+					update="@all" />
+
+				<p:commandButton value="Delete"
+					actionListener="#{memberBean.delete()}" style="margin-left: 10px;"
+					update="@all" />
+			</p:column>
+		</p:panelGrid>
+
+
+	</h:form>
+</body>
+</html>
